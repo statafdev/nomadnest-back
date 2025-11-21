@@ -7,6 +7,8 @@ const cors = require("cors");
 
 // Import local modules
 const connectDB = require("./utils/connectDB");
+const authRoutes = require("./routes/authRoutes");
+const listingRoutes = require("./routes/listingRoutes");
 
 // Initialize Express application
 const app = express();
@@ -14,6 +16,10 @@ const app = express();
 // Middleware Configuration
 app.use(express.json()); // Parse JSON request bodies
 app.use(cors()); // Enable Cross-Origin Resource Sharing
+
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/listings", listingRoutes);
 
 // Default route for API health check
 app.get("/api", (req, res) => {
