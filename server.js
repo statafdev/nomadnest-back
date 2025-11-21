@@ -4,12 +4,19 @@ const express = require("express");
 const cors = require("cors");
 
 const connectDB = require("./utils/connectDB");
+const authRoutes = require("./routes/auth.routes");
+const listingRoutes = require("./routes/listing.routes");
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/listings", listingRoutes);
+
+// Default route for API health check
 app.get("/api", (req, res) => {
   res.json({
     status: "ok",
