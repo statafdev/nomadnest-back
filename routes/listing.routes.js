@@ -13,11 +13,12 @@ const { protect, authorize } = require("../middlewears/auth");
 
 // ========== PUBLIC ROUTES ==========
 router.get("/", getAllListings);
+// Place specific routes before parameter routes to avoid route shadowing
+router.get("/user/my-listings", protect, getUserListings);
 router.get("/:id", getListing);
 
 // ========== PROTECTED USER ROUTES ==========
 router.post("/", protect, createListing);
-router.get("/user/my-listings", protect, getUserListings);
 router.put("/:id", protect, updateListing);
 router.delete("/:id", protect, deleteListing);
 
