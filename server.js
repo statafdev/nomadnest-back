@@ -1,21 +1,16 @@
-// Load environment variables from .env file
 require("dotenv").config();
 
-// Import required dependencies
 const express = require("express");
 const cors = require("cors");
 
-// Import local modules
 const connectDB = require("./utils/connectDB");
 const authRoutes = require("./routes/auth.routes");
 const listingRoutes = require("./routes/listing.routes");
 
-// Initialize Express application
 const app = express();
 
-// Middleware Configuration
-app.use(express.json()); // Parse JSON request bodies
-app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use(express.json());
+app.use(cors());
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -29,17 +24,14 @@ app.get("/api", (req, res) => {
   });
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
     status: "error",
     message: "Something went wrong!",
-    error: process.env.NODE_ENV === "development" ? err.message : undefined,
   });
 });
 
-// Handle 404 routes
 app.use((req, res) => {
   res.status(404).json({
     status: "error",
@@ -47,13 +39,10 @@ app.use((req, res) => {
   });
 });
 
-// Database connection
 const startServer = async () => {
   try {
-    // Connect to MongoDB
     await connectDB();
 
-    // Start the server
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
       console.log(`Server is running on port: ${PORT}`);
@@ -64,5 +53,4 @@ const startServer = async () => {
   }
 };
 
-// Initialize the server
 startServer();
