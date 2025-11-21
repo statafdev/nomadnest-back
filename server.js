@@ -7,8 +7,8 @@ const cors = require("cors");
 
 // Import local modules
 const connectDB = require("./utils/connectDB");
-const authRoutes = require("./routes/authRoutes");
-const listingRoutes = require("./routes/listingRoutes");
+const authRoutes = require("./routes/auth.routes");
+const listingRoutes = require("./routes/listing.routes");
 
 // Initialize Express application
 const app = express();

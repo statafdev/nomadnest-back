@@ -8,7 +8,7 @@ const {
   deleteListing,
   deleteListingAdmin,
   getUserListings,
-} = require("../controllers/listingController");
+} = require("../controllers/listing.controller");
 const { protect, authorize } = require("../middlewears/auth");
 
 // ========== PUBLIC ROUTES ==========

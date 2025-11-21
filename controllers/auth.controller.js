@@ -20,7 +20,7 @@ const generateToken = (user) => {
 // Register - POST /api/auth/register
 exports.register = async (req, res) => {
   try {
-    const { username, email, password, passwordConfirm } = req.body;
+    const { username, email, role, password, passwordConfirm } = req.body;
 
     // Validation
     if (!username || !email || !password || !passwordConfirm) {
@@ -117,8 +117,6 @@ exports.login = async (req, res) => {
       token,
       user: {
         id: user._id,
-        username: user.username,
-        email: user.email,
         role: user.role,
       },
     });
