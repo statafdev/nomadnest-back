@@ -9,7 +9,8 @@ exports.getAllListings = async (req, res) => {
     const { category, minPrice, maxPrice, location, minGuests } = req.query;
 
     // Build filter object
-    let filter = { isAvailable: true };
+    // Removed hard-coded `isAvailable: true` filter so saved listings are returned.
+    let filter = {};
 
     if (category) {
       filter.category = category;
