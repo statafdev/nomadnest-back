@@ -83,13 +83,7 @@ exports.createListing = async (req, res) => {
     const { title, description, location, price, images, owner } = req.body;
 
     // Validation
-    if (
-      !title ||
-      !description ||
-      !location ||
-      !price ||
-      !owner ||
-    ) {
+    if (!title || !description || !location || !price || !owner) {
       return res.status(400).json({
         status: "error",
         message: "Please provide all required fields",
