@@ -78,19 +78,9 @@ exports.getListing = async (req, res) => {
 
 // POST /api/listings - Create listing (requires token)
 exports.createListing = async (req, res) => {
+  console.log(req.body);
   try {
-    const {
-      title,
-      description,
-      location,
-      price,
-      category,
-      amenities,
-      maxGuests,
-      bedrooms,
-      bathrooms,
-      images,
-    } = req.body;
+    const { title, description, location, price, images, owner } = req.body;
 
     // Validation
     if (
@@ -98,9 +88,7 @@ exports.createListing = async (req, res) => {
       !description ||
       !location ||
       !price ||
-      !maxGuests ||
-      bedrooms === undefined ||
-      bathrooms === undefined
+      !owner ||
     ) {
       return res.status(400).json({
         status: "error",
@@ -114,11 +102,6 @@ exports.createListing = async (req, res) => {
       description,
       location,
       price,
-      category: category || "apartment",
-      amenities: amenities || [],
-      maxGuests,
-      bedrooms,
-      bathrooms,
       images: images || [],
       owner: req.user.id,
     });

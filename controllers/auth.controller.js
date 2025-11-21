@@ -19,9 +19,9 @@ const generateToken = (user) => {
 
 // Register - POST /api/auth/register
 exports.register = async (req, res) => {
+  console.log(req.body);
+  const { username, email, password, passwordConfirm } = req.body;
   try {
-    const { username, email, role, password, passwordConfirm } = req.body;
-
     // Validation
     if (!username || !email || !password || !passwordConfirm) {
       return res.status(400).json({
