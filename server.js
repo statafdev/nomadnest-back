@@ -1,4 +1,7 @@
-require("dotenv").config();
+// 1. Gérer dotenv : Charger les variables uniquement si on n'est PAS en production (Vercel gère l'injection)
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 const express = require("express");
 const cors = require("cors");
@@ -29,6 +32,8 @@ app.use((err, req, res, next) => {
   res.status(500).json({
     status: "error",
     message: "Something went wrong!",
+    // Afficher l'erreur détaillée seulement en mode Dev
+    error: NODE_ENV === "development" ? err.message : undefined,
   });
 });
 
@@ -39,18 +44,16 @@ app.use((req, res) => {
   });
 });
 
-const startServer = async () => {
-  try {
-    await connectDB();
+// --- Démarrage du serveur (uniquement en local) ---
+// Vercel Serverless Functions n'ont pas besoin de app.listen()
+if (process.env.NODE_ENV !== "production") {
+  connectDB();
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port: ${PORT}`);
+  });
+}
 
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`Server is running on port: ${PORT}`);
-    });
-  } catch (error) {
-    console.error("Failed to start server:", error);
-    process.exit(1);
-  }
-};
-
-startServer();
+// 🔑 EXPORTATION FINALE pour VERCEL 🔑
+// Quand Vercel appelle la fonction Serverless, il utilise cette instance
+module.exports = app;
